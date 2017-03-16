@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jessy.hanzo@gmail.com"]
 
   spec.summary       = %q{Run xcode bots}
-  spec.description   = %q{Easily run xcode bot from CLI remotely or not}
+  spec.description   = %q{Xbot helps you to manage xcode bots remotely and locally}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -25,7 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "commander", "~> 4.4.3"
   spec.add_development_dependency "colorize", "~> 0.8.1"
+  spec.add_development_dependency "terminal-table", "~> 1.7.3"
 end
-
-# reading list
-# http://guides.rubygems.org/make-your-own-gem/

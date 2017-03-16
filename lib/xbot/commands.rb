@@ -8,10 +8,8 @@ module Xbot
 
         def self.start
             if ARGV.size == 0
-                puts "Help".italic
-            end
-            if (["--verbose","-v"] & ARGV).size > 0
-                puts "Verbose mode enabled".yellow
+                spec = Gem::Specification::load("xbot.gemspec")
+                print "\n#{spec.description}\n\n".italic
             end
 
             self.new.run
@@ -20,7 +18,8 @@ module Xbot
         def run
             program :name, 'xbot'
             program :version, Xbot::VERSION
-            program :description, 'Manage xcode bots'
+            program :description, 'Manage xcode bots easier'
+            program :help, 'Author', 'J2sHnz <jessy.hanzo@gmail.com>'
 
             command :bots do |c|
                 c.syntax = 'xbot bots'
@@ -35,15 +34,6 @@ module Xbot
                 c.syntax = 'xbot integrations'
                 c.description = 'Lists xcode integrations'
                 c.example 'lists xcode integrations', 'xbot integrations'
-                c.action do |args, options|
-                    say "xbot integrations".blue
-                end
-            end
-
-            command :issues do |c|
-                c.syntax = 'xbot issues'
-                c.description = 'Lists xcode issues'
-                c.example 'lists xcode integration available', 'xbot issues'
                 c.action do |args, options|
                     say "xbot integrations".blue
                 end
