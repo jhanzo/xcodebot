@@ -1,0 +1,14 @@
+#should be configured or not
+should_config: true
+
+#verbose / warning / error
+debug_level: verbose
+
+#<PROTOCOL>://<ADDRESS>:<PORT>/<ENDPOINT>
+#ex: https://127.0.0.1:20343/api
+server:
+    protocol: https
+    address: 127.0.0.1
+    port: 20343
+    endpoint: api
+    test: <%= %x{test} %>
