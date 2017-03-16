@@ -1,25 +1,24 @@
 require 'commander'
 require 'colorize'
 require 'rubygems'
+require_relative 'version'
 
 module Xbot
     class CommandsGenerator
         include Commander::Methods
 
         def self.start
-            if ARGV.size == 0
-                spec = Gem::Specification::load("xbot.gemspec")
-                print "\n#{spec.description}\n\n".italic
-            end
-
             self.new.run
         end
 
         def run
+            spec = Gem::Specification::load("xbot.gemspec")
             program :name, 'xbot'
             program :version, Xbot::VERSION
-            program :description, 'Manage xcode bots easier'
-            program :help, 'Author', 'J2sHnz <jessy.hanzo@gmail.com>'
+            program :description, "#{spec.description}"
+            program :help, 'Author', "#{spec.authors.first} <#{spec.email.first}>"
+            program :help, 'GitHub', "#{spec.homepage}"
+            program :help_formatter, :compact
 
             command :bots do |c|
                 c.syntax = 'xbot bots'
@@ -37,6 +36,14 @@ module Xbot
                 c.action do |args, options|
                     say "xbot integrations".blue
                 end
+            end
+
+            command :info do |c|
+                command(:help).run
+                print "---------------------------------------\n".green
+                print "Xbot v#{Xbot::VERSION}\n".italic.green
+                print "Status: ".italic.green + "Work in Progress".italic.yellow + "\n"
+                print "---------------------------------------\n".green
             end
 
             default_command :help

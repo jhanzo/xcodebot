@@ -1,4 +1,3 @@
-require './lib/xbot/version'
 require './lib/xbot/commands'
 
 module Xbot
