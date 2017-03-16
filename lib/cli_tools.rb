@@ -1,10 +1,10 @@
-require './lib/xbot/commands'
+require './lib/xcodebot/commands'
 
-module Xbot
+module Xcodebot
 # Manage command and ARGV
     class CLITools
         def self.start
-            Xbot::CommandsGenerator.start
+            Xcodebot::CommandsGenerator.start
         end
     end
 end

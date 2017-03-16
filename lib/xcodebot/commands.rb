@@ -5,7 +5,7 @@ require_relative 'version'
 require './lib/actions/bot'
 require './lib/actions/integration'
 
-module Xbot
+module Xcodebot
     class CommandsGenerator
         include Commander::Methods
 
@@ -14,29 +14,29 @@ module Xbot
         end
 
         def run
-            spec = Gem::Specification::load("xbot.gemspec")
-            program :name, 'xbot'
-            program :version, Xbot::VERSION
+            spec = Gem::Specification::load("xcodebot.gemspec")
+            program :name, 'xcodebot'
+            program :version, Xcodebot::VERSION
             program :description, "#{spec.description}"
             program :help, 'Author', "#{spec.authors.first} <#{spec.email.first}>"
             program :help, 'GitHub', "#{spec.homepage}"
             program :help_formatter, :compact
 
             command :bots do |c|
-                c.syntax = 'xbot bots'
+                c.syntax = 'xcodebot bots'
                 c.description = 'Lists xcode bots'
-                c.example 'lists xcode bots', 'xbot bots'
+                c.example 'lists xcode bots', 'xcodebot bots'
                 c.action do |args, options|
-                    Xbot::Bot.new.run
+                    Xcodebot::Bot.new.run
                 end
             end
 
             command :integrations do |c|
-                c.syntax = 'xbot integrations'
+                c.syntax = 'xcodebot integrations'
                 c.description = 'Lists xcode integrations'
-                c.example 'lists xcode integrations', 'xbot integrations'
+                c.example 'lists xcode integrations', 'xcodebot integrations'
                 c.action do |args, options|
-                    Xbot::Integration.new.run
+                    Xcodebot::Integration.new.run
                 end
             end
 
@@ -44,7 +44,7 @@ module Xbot
                 if ARGV.size == 0 || ( ["--help","-h"] & ARGV).size > 0
                     command(:help).run
                     print "---------------------------------------\n".green
-                    print "Xbot v#{Xbot::VERSION}\n".italic.green
+                    print "Xcodebot v#{Xcodebot::VERSION}\n".italic.green
                     print "Status: ".italic.green + "Work in Progress".italic.yellow + "\n"
                     print "---------------------------------------\n".green
                 end

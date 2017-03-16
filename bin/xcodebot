@@ -4,4 +4,4 @@
 
 require "./lib/cli_tools"
 
-Xbot::CLITools.start
+Xcodebot::CLITools.start

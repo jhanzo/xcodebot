@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Xbot do
+RSpec.describe Xcodebot do
   it "has a version number" do
-    expect(Xbot::VERSION).not_to be nil
+    expect(Xcodebot::VERSION).not_to be nil
   end
 
   it "does something useful" do

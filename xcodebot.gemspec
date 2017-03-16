@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'xbot/version'
+require 'xcodebot/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "xbot"
-  spec.version       = Xbot::VERSION
+  spec.name          = "xcodebot"
+  spec.version       = Xcodebot::VERSION
   spec.authors       = ["j2shnz"]
   spec.email         = ["jessy.hanzo@gmail.com"]
 
   spec.summary       = %q{Run xcode bots}
-  spec.description   = %q{Xbot helps you to manage xcode bots easier}
-  spec.homepage      = "https://github.com/j2shnz/xbot"
+  spec.description   = %q{Xcodebot helps you to manage xcode bots easier}
+  spec.homepage      = "https://github.com/j2shnz/xcodebot"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

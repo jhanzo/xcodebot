@@ -1,12 +1,12 @@
 require 'commander'
 
-module Xbot
+module Xcodebot
     class Integration
         include Commander::Methods
 
         def run
             command :info do |c|
-                print "xbot integrations\n".green
+                print "xcodebot integrations\n".green
             end
 
             default_command :info
