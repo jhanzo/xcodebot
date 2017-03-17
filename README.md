@@ -1,28 +1,15 @@
-Xcodebot project brings a way to manage easily xcode bots remotely.
+Xcode Bot is a feature of XcodeServer app and brings a convenient way to manage your server automatically.
+
+Unfortunately, the only solution Apple provides us to manage this bot is through their API (https://127.0.0.1:20343/api). But sometimes for any ~strange~ reason you decide to run your CI server (like Jenkins) on a non-MacOS machine.
+
+So how to have a bidirectionnal communication between XcodeServer and Jenkins-like server ? 
+How to detect when your bot starts/stopped/failed/... ?
+
+For all these reasons, this **unofficial** **Xcodebot** project has been created. It's just a convenient wrapper to use XcodeServer API. Feel free to bring any support.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'xcodebot'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install xcodebot
-
-## Usage
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
