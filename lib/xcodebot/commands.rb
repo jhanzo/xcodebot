@@ -4,11 +4,18 @@ require 'rubygems'
 require './lib/xcodebot/version'
 require './lib/actions/bot'
 require './lib/actions/integration'
-require './lib/helpers/config'
+require './lib/actions/config'
 
 module Xcodebot
     class CommandsGenerator
         include Commander::Methods
+
+        def check_envvar
+            #warning about xcodebot env var
+            if !ENV['XCODEBOT_EMAIL'] && !ENV['XCODEBOT_PASSWORD']
+                puts "XCODEBOT_EMAIL and XCODEBOT_PASSWORD are missing in ENV VARs".yellow
+            end
+        end
 
         def self.start
             self.new.run
@@ -27,14 +34,15 @@ module Xcodebot
                 c.syntax = 'xcodebot config [options]'
                 c.description = 'Config xcode server api endpoint'
                 c.example 'configure xcode bots', 'xcodebot config'
-                c.option '--get-config', '-c', 'Display xcode server api endpoint'
+                c.option '--list', '-l', 'Display xcode server api endpoint'
                 c.option '--address', '-a',  'Set address for xcode server api endpoint'
                 c.option '--localhost', '--local', 'Use localhost api endpoint'
                 c.action do |args, options|
                     #remove argument config
                     ARGV.delete("config") if ARGV.first == "config"
+                    check_envvar unless ARGV.size == 0 && !options.size
                     #display help for these cases
-                    if !Xcodebot::Config.configure && ARGV.size == 0 && !options.size
+                    if !Xcodebot::Config.run && ARGV.size == 0 && !options.size
                         command(:help).run
                         exit
                     end
@@ -45,8 +53,15 @@ module Xcodebot
                 c.syntax = 'xcodebot bots'
                 c.description = 'Lists xcode bots'
                 c.example 'lists xcode bots', 'xcodebot bots'
+                c.option '--list', '-l', 'Display xcode server api endpoint'
                 c.action do |args, options|
-                    Xcodebot::Bot.new.run
+                    #remove argument config
+                    ARGV.delete("bots") if ARGV.first == "bots"
+                    #display help for these cases
+                    if !Xcodebot::Bot.run && ARGV.size == 0 && !options.size
+                        command(:help).run
+                        exit
+                    end
                 end
             end
 
