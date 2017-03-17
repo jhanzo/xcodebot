@@ -5,7 +5,7 @@ Unfortunately, the only solution Apple provides us to manage this bot is through
 *So how to have a bidirectionnal communication between XcodeServer and Jenkins-like server ? 
 How to detect when your bot starts/stopped/failed/... ?*
 
-For all these reasons, this **unofficial** **Xcodebot** project has been created. It's just a convenient wrapper to use XcodeServer API. Feel free to bring any support.
+For all these reasons, this **unofficial** **Xcodebot** project has been created. It's just a convenient wrapper to use XcodeServer API. Feel free to open issues / open PRs.
 
 ## Installation
 
