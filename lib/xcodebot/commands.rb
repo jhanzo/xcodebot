@@ -11,12 +11,6 @@ module Xcodebot
         include Commander::Methods
 
         def self.start
-            if !ARGV.include?("--local")
-                #abort "Please fill XCODEBOT_HOST".red unless ENV['XCODEBOT_HOST']
-                #abort "Please fill XCODEBOT_USERNAME".red unless ENV['XCODEBOT_USERNAME']
-                #abort "Please fill XCODEBOT_PASSWORD".red unless ENV['XCODEBOT_PASSWORD']
-            end
-
             self.new.run
         end
 
@@ -30,11 +24,20 @@ module Xcodebot
             program :help_formatter, :compact
 
             command :config do |c|
-                c.syntax = 'xcodebot config'
+                c.syntax = 'xcodebot config [options]'
                 c.description = 'Config xcode server api endpoint'
                 c.example 'configure xcode bots', 'xcodebot config'
+                c.option '--get-config', '-c', 'Display xcode server api endpoint'
+                c.option '--address', '-a',  'Set address for xcode server api endpoint'
+                c.option '--localhost', '--local', 'Use localhost api endpoint'
                 c.action do |args, options|
-                    Xcodebot::Config.first_time_config
+                    #remove argument config
+                    ARGV.delete("config") if ARGV.first == "config"
+                    #display help for these cases
+                    if !Xcodebot::Config.configure && ARGV.size == 0 && !options.size
+                        command(:help).run
+                        exit
+                    end
                 end
             end
 
