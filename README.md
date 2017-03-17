@@ -2,8 +2,8 @@ Xcode Bot is a feature of XcodeServer app and brings a convenient way to manage 
 
 Unfortunately, the only solution Apple provides us to manage this bot is through their API (https://127.0.0.1:20343/api). But sometimes for any ~strange~ reason you decide to run your CI server (like Jenkins) on a non-MacOS machine.
 
-So how to have a bidirectionnal communication between XcodeServer and Jenkins-like server ? 
-How to detect when your bot starts/stopped/failed/... ?
+*So how to have a bidirectionnal communication between XcodeServer and Jenkins-like server ? 
+How to detect when your bot starts/stopped/failed/... ?*
 
 For all these reasons, this **unofficial** **Xcodebot** project has been created. It's just a convenient wrapper to use XcodeServer API. Feel free to bring any support.
 
