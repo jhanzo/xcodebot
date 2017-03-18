@@ -50,10 +50,14 @@ module Xcodebot
             end
 
             command :bots do |c|
-                c.syntax = 'xcodebot bots'
+                c.syntax = 'xcodebot bots [options]'
                 c.description = 'Lists xcode bots'
-                c.example 'lists xcode bots', 'xcodebot bots'
-                c.option '--list', '-l', 'Display xcode server api endpoint'
+                c.example 'manage xcode bots', 'xcodebot bots'
+                c.option '--list', '-l', 'List all bots'
+                c.option '--get', '-g', 'Get bot from <id>'
+                c.option '--create', '-c', 'Create a new bot'
+                c.option '--duplicate', '-d', 'Duplicate bot <id>'
+                c.option '--delete', '-r', 'Remove bot from <id>'
                 c.action do |args, options|
                     #remove argument config
                     ARGV.delete("bots") if ARGV.first == "bots"
