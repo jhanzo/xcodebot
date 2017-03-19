@@ -16,29 +16,29 @@ module Xcodebot
                 if (["--get","-g"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
-                    return false if !ARGV[1]
-                    get(ARGV[1])
+                    return false if !ARGV[0]
+                    get(ARGV[0])
                     return true
                 end
                 if (["--create","-c"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
-                    return false if !ARGV[1]
+                    return false if !ARGV[0]
                     create
                     return true
                 end
                 if (["--delete","-r"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
-                    return false if !ARGV[1]
-                    delete(ARGV[1])
+                    return false if !ARGV[0]
+                    delete(ARGV[0])
                     return true
                 end
                 if (["--duplicate","-d"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
-                    return false if !ARGV[1]
-                    duplicate(ARGV[1])
+                    return false if !ARGV[0]
+                    duplicate(ARGV[0])
                     return true
                 end
             end
@@ -50,7 +50,10 @@ module Xcodebot
         def self.list
             url = Xcodebot::Config.hostname + "/bots"
 
-            result = Xcodebot::Url.get(url)
+            response = Xcodebot::Url.get(url)
+            if !(response.kind_of? Net::HTTPSuccess)
+                abort "Error while getting bots : #{response.code}, #{response.message}"
+            end
             json = JSON.parse(result.body)
 
             title = "#{json["count"]} bots found from #{url}".italic
@@ -77,7 +80,13 @@ module Xcodebot
 
         def self.get(id)
             url = Xcodebot::Config.hostname + "/bots/" + id
-            Xcodebot::Url.get(url)
+            response = Xcodebot::Url.get(url)
+
+            puts response
+
+            if !(response.kind_of? Net::HTTPSuccess)
+                abort "Error while getting bot #{id} : #{response.code}, #{response.message}"
+            end
         end
 
         def self.create
@@ -86,12 +95,22 @@ module Xcodebot
 
         def self.delete(id)
             url = Xcodebot::Config.hostname + "/bots/" + id
-            Xcodebot::Url.delete(url)
+            response = Xcodebot::Url.delete(url)
+            if response.kind_of? Net::HTTPSuccess
+                puts "Bot #{id} has been successfully deleted".green
+            else
+                abort "Error while trying to delete bot #{id} : #{response.code}, #{response.message}".red
+            end
         end
 
         def self.duplicate(id)
             url = Xcodebot::Config.hostname + "/bots/" + id + "/duplicate"
-            puts Xcodebot::Url.post(url)
+            response = Xcodebot::Url.post(url)
+            if response.kind_of? Net::HTTPSuccess
+                puts "Bot #{id} has been successfully duplicated".green
+            else
+                abort "Error while trying to duplicating bot #{id} : #{response.code}, #{response.message}".red
+            end
         end
     end
 end

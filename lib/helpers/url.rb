@@ -1,5 +1,15 @@
+require "base64"
+
 module Xcodebot
     class Url
+
+        def self.generateToken
+            if !ENV['XCODEBOT_EMAIL'] || !ENV['XCODEBOT_PASSWORD']
+                abort "Both XCODEBOT_EMAIL and XCODEBOT_PASSWORD are required for this route".red
+            end
+            Base64.encode64("#{ENV['XCODEBOT_EMAIL']}:#{ENV['XCODEBOT_PASSWORD']}")
+            return "bWFjc2VydmljZXM6MzdHaW5wcmE"
+        end
 
         def self.display_url(url)
             puts "Xcode server API endpoint is : ".italic.light_white + "#{url}".green
@@ -19,34 +29,35 @@ module Xcodebot
 
         def self.is_reachable(url)
             #check if URI is reachable
-            res = self.get(url)
+            begin
+                res = self.get(url)
+            rescue StandardError => e
+                puts "KO".red
+                abort "#{e.to_s}".red
+            end
             return res.code == "200" ? "OK".green : "OK but #{res.code} : #{res.message}".yellow
         end
 
         #convenient URL method
 
         def self.get(url)
-            begin
-                uri = URI.parse(url)
-                req = Net::HTTP::Get.new(uri)
+            uri = URI.parse(url)
+            req = Net::HTTP::Get.new(uri)
 
-                return Net::HTTP.start(
-                    uri.host,
-                    uri.port,
-                    :use_ssl => uri.scheme == 'https',
-                    :verify_mode => OpenSSL::SSL::VERIFY_NONE
-                ) do |https|
-                    https.request(req)
-                end
-            rescue StandardError => e
-                puts "KO".red
-                abort "#{e.to_s}".red
+            return Net::HTTP.start(
+                uri.host,
+                uri.port,
+                :use_ssl => uri.scheme == 'https',
+                :verify_mode => OpenSSL::SSL::VERIFY_NONE
+            ) do |https|
+                https.request(req)
             end
         end
 
         def self.delete(url)
             uri = URI.parse(url)
             req = Net::HTTP::Delete.new(uri)
+            req.add_field("Authorization", "Basic #{generateToken}=")
 
             return Net::HTTP.start(
                 uri.host,
@@ -61,6 +72,7 @@ module Xcodebot
         def self.post(url)
             uri = URI.parse(url)
             req = Net::HTTP::Post.new(uri)
+            req.add_field("Authorization", "Basic #{generateToken}=")
 
             return Net::HTTP.start(
                 uri.host,
