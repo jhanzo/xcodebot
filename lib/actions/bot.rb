@@ -13,11 +13,11 @@ module Xcodebot
                     list
                     return true
                 end
-                if (["--get","-g"] & ARGV).size > 0
+                if (["--stats","-s"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
                     return false if !ARGV[0]
-                    get(ARGV[0])
+                    get_status(ARGV[0])
                     return true
                 end
                 if (["--create","-c"] & ARGV).size > 0
@@ -27,7 +27,7 @@ module Xcodebot
                     create
                     return true
                 end
-                if (["--delete","-r"] & ARGV).size > 0
+                if (["--delete","--remove"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
                     return false if !ARGV[0]
@@ -48,21 +48,22 @@ module Xcodebot
         # CRUD actions
 
         def self.list
-            url = Xcodebot::Config.hostname + "/bots"
+            url = "#{Xcodebot::Config.hostname}/bots"
 
             response = Xcodebot::Url.get(url)
             if !(response.kind_of? Net::HTTPSuccess)
-                abort "Error while getting bots : #{response.code}, #{response.message}"
+                abort "Error while getting bots : #{response.code}, #{response.message}".red
             end
-            json = JSON.parse(result.body)
+            json = JSON.parse(response.body)
 
-            title = "#{json["count"]} bots found from #{url}".italic
-            headers = ['id','name','integrations','scheme','with_coverage','with_tests']
+            title = "#{json["count"]} bots found ".italic
+            headers = ['id','tiny_id','name','integrations','scheme','with_coverage','with_tests']
 
             rows = []
             json["results"].each do |bot|
                 rows << [
                     bot['_id'],
+                    bot['tinyID'],
                     bot['name'],
                     bot['integration_counter'],
                     bot['configuration']['schemeName'],
@@ -78,23 +79,12 @@ module Xcodebot
             puts table
         end
 
-        def self.get(id)
-            url = Xcodebot::Config.hostname + "/bots/" + id
-            response = Xcodebot::Url.get(url)
-
-            puts response
-
-            if !(response.kind_of? Net::HTTPSuccess)
-                abort "Error while getting bot #{id} : #{response.code}, #{response.message}"
-            end
-        end
-
         def self.create
 
         end
 
         def self.delete(id)
-            url = Xcodebot::Config.hostname + "/bots/" + id
+            url = "#{Xcodebot::Config.hostname}/bots/" + id
             response = Xcodebot::Url.delete(url)
             if response.kind_of? Net::HTTPSuccess
                 puts "Bot #{id} has been successfully deleted".green
@@ -104,13 +94,34 @@ module Xcodebot
         end
 
         def self.duplicate(id)
-            url = Xcodebot::Config.hostname + "/bots/" + id + "/duplicate"
+            url = "#{Xcodebot::Config.hostname}/bots/#{id}/duplicate"
             response = Xcodebot::Url.post(url)
             if response.kind_of? Net::HTTPSuccess
                 puts "Bot #{id} has been successfully duplicated".green
             else
                 abort "Error while trying to duplicating bot #{id} : #{response.code}, #{response.message}".red
             end
+        end
+
+        def self.get_status(id)
+            url = "#{Xcodebot::Config.hostname}/bots/#{id}/stats"
+
+            response = Xcodebot::Url.get(url)
+            if !(response.kind_of? Net::HTTPSuccess)
+                abort "Error while getting bots : #{response.code}, #{response.message}".red
+            end
+            json = JSON.parse(response.body)
+
+            title = "Stats information about #{id}".italic
+            headers = ['Title','Value']
+
+            rows = []
+            rows << ['integrations', json['numberOfIntegrations']]
+            rows << ['commits', json['numberOfCommits']]
+
+            table = Terminal::Table.new :title => title, :headings => headers, :rows => rows
+            table.align_column(1, :right)
+            puts table
         end
     end
 end

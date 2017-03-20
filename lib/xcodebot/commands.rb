@@ -54,10 +54,10 @@ module Xcodebot
                 c.description = 'Lists xcode bots'
                 c.example 'manage xcode bots', 'xcodebot bots'
                 c.option '--list', '-l', 'List all bots'
-                c.option '--get', '-g', 'Get bot from <id>'
+                c.option '--stats', '-s', 'Stats for bot <id>'
                 c.option '--create', '-c', 'Create a new bot'
                 c.option '--duplicate', '-d', 'Duplicate bot <id>'
-                c.option '--delete', '-r', 'Remove bot from <id>'
+                c.option '--delete', '--remove', 'Remove bot from <id>'
                 c.action do |args, options|
                     #remove argument config
                     ARGV.delete("bots") if ARGV.first == "bots"
@@ -72,9 +72,23 @@ module Xcodebot
             command :integrations do |c|
                 c.syntax = 'xcodebot integrations'
                 c.description = 'Lists xcode integrations'
-                c.example 'lists xcode integrations', 'xcodebot integrations'
+                c.example 'Manage xcode integrations', 'xcodebot integrations'
+                c.option '--list', '-l', 'List integrations for a bot <id>'
+                c.option '--create', '-c', 'Create a new integration for a bot <id>'
+                c.option '--cancel', 'Cancel an integration <id>'
+                c.option '--status', '-s', 'Status of an integration <id>'
+                c.option '--logs', 'Get logs from an integration <id>'
+                c.option '--delete', '--remove', 'Remove integration from <id>'
+                c.option '--delete-all', '--remove-all', 'Remove all integrations'
+                c.option '--wait', '-w', 'Wait until integration <id> ends'
                 c.action do |args, options|
-                    Xcodebot::Integration.new.run
+                    #remove argument config
+                    ARGV.delete("integrations") if ARGV.first == "integrations"
+                    #display help for these cases
+                    if !Xcodebot::Integration.run && ARGV.size == 0 && !options.size
+                        command(:help).run
+                        exit
+                    end
                 end
             end
 
