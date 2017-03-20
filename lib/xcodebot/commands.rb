@@ -55,7 +55,7 @@ module Xcodebot
                 c.example 'manage xcode bots', 'xcodebot bots'
                 c.option '--list', '-l', 'List all bots'
                 c.option '--stats', '-s', 'Stats for bot <id>'
-                c.option '--create', '-c', 'Create a new bot'
+                c.option '--create', '-c', 'Create a new bot with params <KEY>:<VALUE>'
                 c.option '--duplicate', '-d', 'Duplicate bot <id>'
                 c.option '--delete', '--remove', 'Remove bot from <id>'
                 c.action do |args, options|

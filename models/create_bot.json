@@ -1,0 +1,63 @@
+{
+  "name": "<NAME>",
+  "group": {
+    "name": "5FFB5254-47D4-40F0-BC5F-A5F76584334E"
+  },
+  "configuration": {
+    "builtFromClean": 0,
+    "periodicScheduleInterval": 0,
+    "codeCoveragePreference": 2,
+    "performsTestAction": true,
+    "performsAnalyzeAction": true,
+    "schemeName": "<SCHEME_NAME>",
+    "exportsProductFromArchive": true,
+    "testingDeviceIDs": [],
+    "weeklyScheduleDay": 0,
+    "minutesAfterHourToIntegrate": 0,
+    "scheduleType": 3,
+    "hourOfIntegration": 0,
+    "performsArchiveAction": true,
+    "triggers": [
+      {
+        "phase": 1,
+        "scriptBody": "#!/bin/sh\npod repo update\npod install",
+        "type": 1,
+        "name": "Pod",
+        "conditions": {
+          "status": 2,
+          "onSuccess": true,
+          "onAnalyzerWarnings": true,
+          "onBuildErrors": true,
+          "onWarnings": true,
+          "onFailingTests": true
+        }
+      }
+    ],
+    "deviceSpecification": {
+      "filters": [],
+      "deviceIdentifiers": []
+    },
+    "sourceControlBlueprint": {
+      "DVTSourceControlWorkspaceBlueprintLocationsKey": {
+        "CEE8472CC4AB69CD27173B930EB93B6B4AA4BAFC": {
+          "DVTSourceControlBranchIdentifierKey": "<BRANCH>",
+          "DVTSourceControlBranchOptionsKey": 4,
+          "DVTSourceControlWorkspaceBlueprintLocationTypeKey": "DVTSourceControlBranch"
+        }
+      },
+      "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey": {
+        "CEE8472CC4AB69CD27173B930EB93B6B4AA4BAFC": "<FOLDER>"
+      },
+      "DVTSourceControlWorkspaceBlueprintNameKey": "<PROJECT_NAME",
+      "DVTSourceControlWorkspaceBlueprintVersion": 204,
+      "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey": "<PATH_XCODEPROJ>",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey": [
+        {
+          "DVTSourceControlWorkspaceBlueprintRemoteRepositoryEnforceTrustCertFingerprintKey": true,
+          "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey": "<GITHUB_LINK>",
+          "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey": "com.apple.dt.Xcode.sourcecontrol.Git"
+        }
+      ]
+    }
+  }
+}
