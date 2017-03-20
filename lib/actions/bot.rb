@@ -90,10 +90,16 @@ module Xcodebot
                 param = arg.split(/:/)
                 if param.size == 2
                     case param.first
+                    when "name"
+                        json["name"] = param.value
                     when "schedule"
+                        json["configuration"]["scheduleType"] = param.value
                     when "clean"
+                        json["configuration"]["builtFromClean"] = param.value
                     when "branch"
+                        #json["sourceControlBlueprint"]["DVTSourceControlWorkspaceBlueprintLocationsKey"] = ""
                     when "scheme"
+                        json["configuration"]["schemeName"] = param.value
                     else
                         puts "Unknown parameter `#{param.first}`, `bin/xcodebot bots --create` for more info".red
                     end
