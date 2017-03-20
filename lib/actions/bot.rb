@@ -80,7 +80,32 @@ module Xcodebot
         end
 
         def self.create
+            url = "#{Xcodebot::Config.hostname}/bots"
+            #this file is just a template, it's never updated
+            file = File.read('models/create_bot.json')
+            json = JSON.parse(file)
 
+            ARGV.each |arg|
+                #check if parameter is correctly normalized
+                param = arg.split(/:/)
+                if param.size == 2
+                    case param.first
+                    when "schedule"
+                    when "clean"
+                    when "branch"
+                    when "scheme"
+                    else
+                        puts "Unknown parameter `#{param.first}`, `bin/xcodebot bots --create` for more info".red
+                    end
+                end
+            end
+
+            response = Xcodebot::Url.post_json(url,json)
+            if response.kind_of? Net::HTTPSuccess
+                puts "Bot #{id} has been successfully created".green
+            else
+                abort "Error while creating bot : #{response.code}, #{response.message}".red
+            end
         end
 
         def self.delete(id)

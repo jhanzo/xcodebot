@@ -84,5 +84,22 @@ module Xcodebot
             end
         end
 
+        def self.post_json(url,json)
+            uri = URI.parse(url)
+            req = Net::HTTP::Post.new(uri)
+            req.add_field("Authorization", "Basic #{generateToken}")
+            req.add_field("Content-Type", "application/json")
+            req.body = json
+
+            return Net::HTTP.start(
+                uri.host,
+                uri.port,
+                :use_ssl => uri.scheme == 'https',
+                :verify_mode => OpenSSL::SSL::VERIFY_NONE
+            ) do |https|
+                https.request(req)
+            end
+        end
+
     end
 end
