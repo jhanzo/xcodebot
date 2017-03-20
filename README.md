@@ -1,17 +1,35 @@
-Xcode Bot is a feature of XcodeServer app and brings a convenient way to manage your server automatically.
+Xcodebot is a non-official cross-platform tool for managing Xcode server on *any server environment* (only Ruby is required).
 
-Unfortunately, the only solution Apple provides us to manage this bot is through their API. But sometimes for any ~strange~ reason you decide to run your CI server (like Jenkins) on a non-MacOS machine.
+This repo lets you a solution for calling Xcode server on ANY CI server (ex: Jenkins) hosted on ANY non-MacOS machine.
 
-*So how to have a bidirectionnal communication between XcodeServer and Jenkins-like server ?
-How to detect when your bot starts/stopped/failed/... ?*
+Where Xcode API was ASYNCHRONOUS, the following bot can be used completely SYNCHRONOUSLY.
 
-For all these reasons, this **unofficial** **Xcodebot** project has been created. It's just a convenient wrapper to use XcodeServer API. Feel free to open issues / open PRs.
+Some ideas for using it :
 
-For more information about the API, because of [Apple doc](https://developer.apple.com/library/content/documentation/Xcode/Conceptual/XcodeServerAPIReference/Bots.html#//apple_ref/doc/uid/TP40016472-CH2-SW1) is not maintained anymore, you can visit this unofficial doc : https://github.com/buildasaurs/XcodeServer-API-Docs.
+- bidirectionnal communication between XcodeServer and CI server
+- call Xcodebot on any environment with or without Xcode
+- display Xcodebot results easier than in an huge JSON
+- ...
 
-## Installation
+Feel free to open issues / open PRs.
 
-    $ gem install xcodebot
+$ gem install xcodebot
+
+## References
+
+### API Reference
+
+- An outdated (but official) [Apple documentation](https://developer.apple.com/library/content/documentation/Xcode/Conceptual/XcodeServerAPIReference/Bots.html#//apple_ref/doc/uid/TP40016472-CH2-SW1)
+- A more detailled (unofficial) doc from [Buildasaurs/XcodeServer-API-Docs](https://github.com/buildasaurs/XcodeServer-API-Docs).
+
+
+### Outdated but awesome repo
+
+These (outdated) repositories have been a great source of inspiration for creating this repo. Great thanks to them.
+
+- https://github.com/buildasaurs/XcodeServer-API-Docs
+- https://github.com/buildasaurs/xcskarel
+- https://github.com/oarrabi/xserverpy
 
 ## Contributing
 

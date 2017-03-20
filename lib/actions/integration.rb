@@ -3,12 +3,17 @@ module Xcodebot
         "canceled" => "Canceled".red,
         "trigger-error" => "Trigger error".red,
         "build-errors" => "Build error".red,
-        "warnings" => "Warning".yellow
+        "warnings" => "Warning".yellow,
+        "analyzer-warnings" => "Analyzer warnings".yellow,
+        "test-failures" => "Test failures".red,
+        "succeeded" => "Succeeded".green
     }
 
     STEPS = {
         "completed" => "Completed".green,
         "pending" => "Pending".light_white,
+        "building" => "Building".light_white,
+        "testing" => "Testing".light_white,
         "checkout" => "Checkout".light_white,
         "uploading" => "Upload".light_blue,
         "before-triggers" => "Before triggers".light_white,
@@ -204,6 +209,18 @@ module Xcodebot
 
                 sleep 1
             end
+            if json['startedTime']
+                print "Start date : " + DateTime.parse(json['startedTime']).strftime("%m/%d/%Y %H:%M:%S")
+            end
+            if json['duration']
+                print "Duration : " + Time.at(json['duration']).utc.strftime("%Hh %Mmin %Ssec")
+            end
+            if json['duration']
+                step_value = !STEPS["#{json['currentStep']}"] ? json['currentStep'] : STEPS["#{json['currentStep']}"]
+                result_value = !STATUSES["#{int['result']}"] ? int['result'] : STATUSES["#{int['result']}"]
+                print "Status : #{result_value} - #{step_value}"
+            end
+            print "More logs available at : #{Xcodebot::Config.hostname}/integrations/#{id}/assets"
         end
 
         def self.logs(id)
@@ -214,18 +231,6 @@ module Xcodebot
                 puts response.body
             else
                 abort "Error while getting logs about integration #{id} : #{response.code}, #{response.message}".red
-            end
-        end
-
-        def get_status(id)
-            url = "#{Xcodebot::Config.hostname}/integrations/#{id}"
-
-            response = Xcodebot::Url.get(url)
-            if response.kind_of? Net::HTTPSuccess
-                json = JSON.parse(response.body)
-                json['currentStep']
-                json['result']
-                return json['currentStep']
             end
         end
     end
