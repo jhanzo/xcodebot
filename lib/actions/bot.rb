@@ -57,15 +57,15 @@ module Xcodebot
             json = JSON.parse(response.body)
 
             title = "#{json["count"]} bots found ".italic
-            headers = ['id','tiny_id','name','integrations','scheme','branch','coverage','with_tests']
+            headers = ['_blueprint','id','tiny_id','name','integrations','scheme','branch','coverage','with_tests']
 
             rows = []
-            puts String.colors
             json["results"].each do |bot|
                 blueprint = bot['configuration']['sourceControlBlueprint']
                 blueprint_id = blueprint['DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey']
                 branch = blueprint['DVTSourceControlWorkspaceBlueprintLocationsKey'][blueprint_id]
                 rows << [
+                    blueprint_id,
                     bot['_id'],
                     bot['tinyID'],
                     bot['name'],
@@ -91,27 +91,46 @@ module Xcodebot
             file = File.read('models/create_bot.json')
             json = JSON.parse(file)
 
-            ARGV.each do |arg|
-                #check if parameter is correctly normalized
-                param = arg.split(/:/)
-                if param.size == 2
-                    case param.first
-                    when "name"
-                        json["name"] = param.value
-                    when "schedule"
-                        json["configuration"]["scheduleType"] = 2
-                    when "clean"
-                        json["configuration"]["builtFromClean"] = param.value
-                    when "branch"
-                        #json["sourceControlBlueprint"]["DVTSourceControlWorkspaceBlueprintLocationsKey"] = ""
-                    when "scheme"
-                        json["configuration"]["schemeName"] = param.value
-                    else
-                        puts "Unknown parameter `#{param.first}`, `bin/xcodebot bots --create` for more info".red
-                    end
+            #find . -name '*.xcscmblueprint' | xargs grep DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey | sed -e 's/".*" : "\(.*\)",/\1/'
+            args = Hash[ARGV.map {|el| el.split ':'}]
+
+            if !args.keys.include?('blueprint')
+                puts "Please fill your Blueprint Id".red
+                puts "Run the following `command` from your xcode project for having blueprint id :"
+                puts "---"
+                puts "find . -name '*.xcscmblueprint' | \\".italic.light_white
+                puts "xargs grep DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey | \\".italic.light_white
+                puts "sed -e 's/\".*\" : \"\\(.*\\)\",/\\1/'".italic.light_white
+                puts "---"
+                abort
+            end
+
+            abort "Parameter is missing : `name`".red if !args.keys.include?('name')
+            abort "Parameter is missing : `schedule`".red if !args.keys.include?('schedule')
+            abort "Parameter is missing : `clean` (0|1)".red if !args.keys.include?('clean')
+            abort "Parameter is missing : `branch`".red if !args.keys.include?('branch')
+            abort "Parameter is missing : `scheme`".red if !args.keys.include?('scheme')
+
+            args.each do |key,value|
+                case key
+                when "blueprint"
+                    puts "blueprint".blue
+                when "name"
+                    json["name"] = value
+                when "schedule"
+                    json["configuration"]["scheduleType"] = value
+                when "clean"
+                    json["configuration"]["builtFromClean"] = value
+                when "branch"
+                    puts "branch".blue
+                when "scheme"
+                    json["configuration"]["schemeName"] = value
+                else
+                    puts "Unknown parameter `#{key}`, `bin/xcodebot bots --create` for more info".yellow
                 end
             end
 
+            exit
             response = Xcodebot::Url.post_json(url,json)
             if response.kind_of? Net::HTTPSuccess
                 puts "Bot #{id} has been successfully created".green

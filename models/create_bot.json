@@ -39,14 +39,15 @@
     },
     "sourceControlBlueprint": {
       "DVTSourceControlWorkspaceBlueprintLocationsKey": {
-        "CEE8472CC4AB69CD27173B930EB93B6B4AA4BAFC": {
+        "<BLUEPRINT_ID>": {
           "DVTSourceControlBranchIdentifierKey": "<BRANCH>",
           "DVTSourceControlBranchOptionsKey": 4,
           "DVTSourceControlWorkspaceBlueprintLocationTypeKey": "DVTSourceControlBranch"
         }
       },
+      "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey": "<BLUEPRINT_ID>",
       "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey": {
-        "CEE8472CC4AB69CD27173B930EB93B6B4AA4BAFC": "<FOLDER>"
+        "<BLUEPRINT_ID>": "<FOLDER>"
       },
       "DVTSourceControlWorkspaceBlueprintNameKey": "<PROJECT_NAME",
       "DVTSourceControlWorkspaceBlueprintVersion": 204,
