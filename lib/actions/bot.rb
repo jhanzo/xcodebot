@@ -13,6 +13,13 @@ module Xcodebot
                     list
                     return true
                 end
+                if (["--get"] & ARGV).size > 0
+                    #remove argument config
+                    ARGV.delete(ARGV.first)
+                    return false if !ARGV[0]
+                    get(ARGV[0])
+                    return true
+                end
                 if (["--stats","-s"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
@@ -85,14 +92,37 @@ module Xcodebot
             puts table
         end
 
+        def self.get(id)
+            url = "#{Xcodebot::Config.hostname}/bots/#{id}"
+
+            response = Xcodebot::Url.get(url)
+            if response.kind_of? Net::HTTPSuccess
+                json = JSON.parse(response.body)
+                blueprint = json['configuration']['sourceControlBlueprint']
+                blueprint_id = blueprint['DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey']
+                branch = blueprint['DVTSourceControlWorkspaceBlueprintLocationsKey'][blueprint_id]
+
+                puts
+                puts "Successfully got bot #{json['tinyID']} (#{id})".green
+                puts "#{json['name']}".light_white + " has #{json['integration_counter']} integrations"
+                if branch
+                    print "Checkout branch " + "#{branch["DVTSourceControlBranchIdentifierKey"]}".light_white + " and "
+                end
+                print "built for scheme " + "#{json['configuration']['schemeName']}".light_white + "\n"
+                puts "Blueprint id : " + "#{blueprint_id}".light_white
+                puts
+            else
+                abort "Error while getting bot #{id}: #{response.code}, #{response.message}".red
+            end
+        end
+
         def self.create
             url = "#{Xcodebot::Config.hostname}/bots"
             #this file is just a template, it's never updated
             file = File.read('models/create_bot.json')
             json = JSON.parse(file)
 
-            #find . -name '*.xcscmblueprint' | xargs grep DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey | sed -e 's/".*" : "\(.*\)",/\1/'
-            args = Hash[ARGV.map {|el| el.split ':'}]
+            args = Hash[ARGV.map {|el| el.split(':',2)}]
 
             if !args.keys.include?('blueprint')
                 puts "Please fill your Blueprint Id".red
@@ -107,33 +137,35 @@ module Xcodebot
 
             abort "Parameter is missing : `name`".red if !args.keys.include?('name')
             abort "Parameter is missing : `schedule`".red if !args.keys.include?('schedule')
-            abort "Parameter is missing : `clean` (0|1)".red if !args.keys.include?('clean')
+            abort "Parameter is missing : `clean`".red if !args.keys.include?('clean')
             abort "Parameter is missing : `branch`".red if !args.keys.include?('branch')
             abort "Parameter is missing : `scheme`".red if !args.keys.include?('scheme')
+            abort "Parameter is missing : `folder`".red if !args.keys.include?('folder')
+            abort "Parameter is missing : `project`".red if !args.keys.include?('project')
+            abort "Parameter is missing : `path`".red if !args.keys.include?('path')
+            abort "Parameter is missing : `git`".red if !args.keys.include?('git')
 
-            args.each do |key,value|
-                case key
-                when "blueprint"
-                    puts "blueprint".blue
-                when "name"
-                    json["name"] = value
-                when "schedule"
-                    json["configuration"]["scheduleType"] = value
-                when "clean"
-                    json["configuration"]["builtFromClean"] = value
-                when "branch"
-                    puts "branch".blue
-                when "scheme"
-                    json["configuration"]["schemeName"] = value
-                else
-                    puts "Unknown parameter `#{key}`, `bin/xcodebot bots --create` for more info".yellow
+            #extract blueprint
+            blueprint_id = args["blueprint"]
+
+            json_text = file.gsub(/search_regexp/, "replacement string")
+
+            replace = json_text.gsub(/(<NAME>|<BLUEPRINT_ID>|<BRANCH>|<FOLDER>|<PROJECT_NAME>|<PATH_PROJECT>|<VERSION_LINK>)/) do |match|
+                case match
+                when '<NAME>' then args['name']
+                when '<SCHEME_NAME>' then args['scheme']
+                when '<BLUEPRINT_ID>' then blueprint_id
+                when '<BRANCH>' then args['branch']
+                when '<FOLDER>' then args['folder']
+                when '<PROJECT_NAME>' then args['project']
+                when '<PATH_PROJECT>' then args['path']
+                when '<VERSION_LINK>' then args['git']
                 end
             end
 
-            exit
-            response = Xcodebot::Url.post_json(url,json)
+            response = Xcodebot::Url.post_json(url,replace)
             if response.kind_of? Net::HTTPSuccess
-                puts "Bot #{id} has been successfully created".green
+                puts "Bot #{JSON.parse(response.body)["_id"]} has been successfully created".green
             else
                 abort "Error while creating bot : #{response.code}, #{response.message}".red
             end
