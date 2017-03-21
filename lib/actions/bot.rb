@@ -64,7 +64,7 @@ module Xcodebot
             json = JSON.parse(response.body)
 
             title = "#{json["count"]} bots found ".italic
-            headers = ['_blueprint','id','tiny_id','name','integrations','scheme','branch','coverage','with_tests']
+            headers = ['id','tiny_id','name','integrations','scheme','branch','coverage','with_tests']
 
             rows = []
             json["results"].each do |bot|
@@ -72,7 +72,6 @@ module Xcodebot
                 blueprint_id = blueprint['DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey']
                 branch = blueprint['DVTSourceControlWorkspaceBlueprintLocationsKey'][blueprint_id]
                 rows << [
-                    blueprint_id,
                     bot['_id'],
                     bot['tinyID'],
                     bot['name'],
@@ -102,15 +101,13 @@ module Xcodebot
                 blueprint_id = blueprint['DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey']
                 branch = blueprint['DVTSourceControlWorkspaceBlueprintLocationsKey'][blueprint_id]
 
-                puts
-                puts "Successfully got bot #{json['tinyID']} (#{id})".green
-                puts "#{json['name']}".light_white + " has #{json['integration_counter']} integrations"
+                print "\nSuccessfully got bot #{json['tinyID']} (#{id})\n".green
+                print "#{json['name']}".light_white + " has #{json['integration_counter']} integrations\n"
                 if branch
                     print "Checkout branch " + "#{branch["DVTSourceControlBranchIdentifierKey"]}".light_white + " and "
                 end
                 print "built for scheme " + "#{json['configuration']['schemeName']}".light_white + "\n"
-                puts "Blueprint id : " + "#{blueprint_id}".light_white
-                puts
+                print "\nBlueprint id : " + "#{blueprint_id}\n".light_white
             else
                 abort "Error while getting bot #{id}: #{response.code}, #{response.message}".red
             end
@@ -120,12 +117,11 @@ module Xcodebot
             url = "#{Xcodebot::Config.hostname}/bots"
             #this file is just a template, it's never updated
             file = File.read('models/create_bot.json')
-            json = JSON.parse(file)
 
             args = Hash[ARGV.map {|el| el.split(':',2)}]
 
             if !args.keys.include?('blueprint')
-                puts "Please fill your Blueprint Id".red
+                puts "Please fill your Blueprint id".red
                 puts "Run the following `command` from your xcode project for having blueprint id :"
                 puts "---"
                 puts "find . -name '*.xcscmblueprint' | \\".italic.light_white
@@ -148,9 +144,7 @@ module Xcodebot
             #extract blueprint
             blueprint_id = args["blueprint"]
 
-            json_text = file.gsub(/search_regexp/, "replacement string")
-
-            replace = json_text.gsub(/(<NAME>|<BLUEPRINT_ID>|<BRANCH>|<FOLDER>|<PROJECT_NAME>|<PATH_PROJECT>|<VERSION_LINK>)/) do |match|
+            replace = file.gsub(/(<NAME>|<SCHEME_NAME>|<BLUEPRINT_ID>|<BRANCH>|<FOLDER>|<PROJECT_NAME>|<PATH_PROJECT>|<VERSION_LINK>)/) do |match|
                 case match
                 when '<NAME>' then args['name']
                 when '<SCHEME_NAME>' then args['scheme']
@@ -163,7 +157,7 @@ module Xcodebot
                 end
             end
 
-            response = Xcodebot::Url.post_json(url,replace)
+            response = Xcodebot::Url.post_json(url,JSON.parse(replace).to_json)
             if response.kind_of? Net::HTTPSuccess
                 puts "Bot #{JSON.parse(response.body)["_id"]} has been successfully created".green
             else
