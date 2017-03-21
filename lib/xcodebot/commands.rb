@@ -54,6 +54,7 @@ module Xcodebot
                 c.description = 'Lists xcode bots'
                 c.example 'manage xcode bots', 'xcodebot bots'
                 c.option '--list', '-l', 'List all bots'
+                c.option '--get', 'Get bot info by <id>'
                 c.option '--stats', '-s', 'Stats for bot <id>'
                 c.option '--create', '-c', 'Create a new bot with params <KEY>:<VALUE>'
                 c.option '--duplicate', '-d', 'Duplicate bot <id>'
