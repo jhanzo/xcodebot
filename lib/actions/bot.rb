@@ -57,16 +57,21 @@ module Xcodebot
             json = JSON.parse(response.body)
 
             title = "#{json["count"]} bots found ".italic
-            headers = ['id','tiny_id','name','integrations','scheme','with_coverage','with_tests']
+            headers = ['id','tiny_id','name','integrations','scheme','branch','coverage','with_tests']
 
             rows = []
+            puts String.colors
             json["results"].each do |bot|
+                blueprint = bot['configuration']['sourceControlBlueprint']
+                blueprint_id = blueprint['DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey']
+                branch = blueprint['DVTSourceControlWorkspaceBlueprintLocationsKey'][blueprint_id]
                 rows << [
                     bot['_id'],
                     bot['tinyID'],
                     bot['name'],
                     bot['integration_counter'],
                     bot['configuration']['schemeName'],
+                    branch ? branch["DVTSourceControlBranchIdentifierKey"] : '-',
                     bot['configuration']['codeCoveragePreference'],
                     bot['configuration']['performsTestAction']
                 ]
@@ -76,6 +81,7 @@ module Xcodebot
             table.align_column(3, :right)
             table.align_column(4, :right)
             table.align_column(5, :right)
+            table.align_column(6, :right)
             puts table
         end
 
@@ -85,7 +91,7 @@ module Xcodebot
             file = File.read('models/create_bot.json')
             json = JSON.parse(file)
 
-            ARGV.each |arg|
+            ARGV.each do |arg|
                 #check if parameter is correctly normalized
                 param = arg.split(/:/)
                 if param.size == 2
@@ -93,7 +99,7 @@ module Xcodebot
                     when "name"
                         json["name"] = param.value
                     when "schedule"
-                        json["configuration"]["scheduleType"] = param.value
+                        json["configuration"]["scheduleType"] = 2
                     when "clean"
                         json["configuration"]["builtFromClean"] = param.value
                     when "branch"
@@ -115,12 +121,14 @@ module Xcodebot
         end
 
         def self.delete(id)
-            url = "#{Xcodebot::Config.hostname}/bots/" + id
-            response = Xcodebot::Url.delete(url)
-            if response.kind_of? Net::HTTPSuccess
-                puts "Bot #{id} has been successfully deleted".green
-            else
-                abort "Error while trying to delete bot #{id} : #{response.code}, #{response.message}".red
+            ARGV.each do |arg|
+                url = "#{Xcodebot::Config.hostname}/bots/" + arg
+                response = Xcodebot::Url.delete(url)
+                if response.kind_of? Net::HTTPSuccess
+                    puts "Bot #{arg} has been successfully deleted".green
+                else
+                    abort "Error while trying to delete bot #{arg} : #{response.code}, #{response.message}".red
+                end
             end
         end
 
