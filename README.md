@@ -1,9 +1,9 @@
 ![](https://img.shields.io/badge/gem-2.6.8-E9573F.svg)
 ![](https://img.shields.io/badge/xcode-8.2-blue.svg)
 
-Xcodebot is a non-official cross-platform tool for managing Xcode server on *any server environment* (only Ruby is required), this it can be used on Jenkins server even if Xcode is not installed on the machine.
+**Xcodebot** is a non-official cross-platform tool for managing Xcode server on *any server environment* (only Ruby is required), thus it can be used on Jenkins server even if Xcode is not installed on the machine.
 
-Where Xcode API was ASYNCHRONOUS, the provided bot provides a way for calling API completely SYNCHRONOUSLY.
+Whereas Xcode API was ASYNCHRONOUS, the provided bot provides a way for calling bots completely SYNCHRONOUSLY.
 
 Some ideas for using it :
 
@@ -37,15 +37,17 @@ In this way, your credentials are never stored in any configuration file and you
 
 ### Configuration (`config`)
 
-> xcodebot config
+> xcodebot help config
 
-| ARGS   | Description                              |
-|--------|------------------------------------------|
-|        |         |
+| ARGS                 | Description                               |
+|----------------------|-------------------------------------------|
+| --list, -l           | Display xcode server api endpoint         |
+| --address, -a        | Set address for xcode server              |
+| --localhost, --local | Use localhost as address for xcode server |
 
 ### Bots (`bots`)
 
-> xcodebot bots
+> xcodebot help bots
 
 | ARGS               | Description                 | Parameters    |
 |--------------------|-----------------------------|---------------|
@@ -67,25 +69,32 @@ For finding this file, you can run following command on your source repository :
 
 Then you can create a bot by running command (**simplification work in progress**) :
 
-> xcodebot bots --create \
->	blueprint:82EF22EF5CE4E343B67A9F79130BD862EF58AE20 \
->	name:'Auto Bot' \
->	schedule:2 \
->	clean:1 \
->	branch:5.7 \
->	scheme:CI \
->	project:'VoyagePrive' \
->	folder:'iosVoyagePrive/' \
->	git:'github.com:vpg/iosVoyagePrive.git' \
->	path:'VoyagePrive/VoyagePrive.xcworkspace'
+> xcodebot bots --create \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;name:'Auto Bot' \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;schedule:2 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;clean:1 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;branch:5.7 \\    
+> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\ 
+> &nbsp;&nbsp;&nbsp;&nbsp;blueprint:82EF22EF5CE4E343B67A9F79130BD862EF58AE20 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;project:'VoyagePrive' \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;folder:'iosVoyagePrive/' \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;git:'github.com:vpg/iosVoyagePrive.git' \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;path:'VoyagePrive/VoyagePrive.xcworkspace'
 
 ### Integrations (`integrations`)
 
-> xcodebot integrations
+> xcodebot help integrations
 
-| ARGS   | Description                              |
-|--------------|------------------------------------------|
-|        |         |
+| ARGS                       | Description                        | Parameters |
+|----------------------------|------------------------------------|------------|
+| --cancel                   | Cancel an integration              | <inte_id>  |
+| --create, -c               | Create a new integration for a bot | <bot_id>   |
+| --delete, --remove         | Remove integration                 | <inte_id>  |
+| --delete-all, --remove-all | Remove all integrations            | -          |
+| --list, -l                 | List integrations for a bot        | <bot_id>   |
+| --logs                     | Get logs of an integration         | <inte_id>  |
+| --status, -s               | Get status of an integration       | <inte_id>  |
+| --wait, -w                 | Task done synchronously            | -          |
 
 ## References
 
