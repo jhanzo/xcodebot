@@ -24,8 +24,8 @@ Or :
 
 Some environment variables should be set for having access to your Xcode server :
 
-> export XCODEBOT_EMAIL="user@mail.com"
-> export XCODEBOT_PASSWORD="MY_PASSWORD"
+> export XCODEBOT_EMAIL="user@mail.com"  
+> export XCODEBOT_PASSWORD="MY_PASSWORD"  
 
 In this way, your credentials are never stored in any configuration file and you keep any control on them.
 
