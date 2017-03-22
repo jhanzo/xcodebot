@@ -18,6 +18,10 @@ Feel free to open issues / open PRs.
 
 > gem install xcodebot
 
+Or :
+
+> gem "xcodebot", :git => "git://github.com/vpg/xcodebot.git"
+
 Some environment variables should be set for having access to your Xcode server :
 
 > export XCODEBOT_EMAIL="user@mail.com"
