@@ -1,3 +1,6 @@
+![](https://img.shields.io/badge/gem-2.6.8-E9573F.svg)
+![](https://img.shields.io/badge/xcode-8.2-blue.svg)
+
 Xcodebot is a non-official cross-platform tool for managing Xcode server on *any server environment* (only Ruby is required), this it can be used on Jenkins server even if Xcode is not installed on the machine.
 
 Where Xcode API was ASYNCHRONOUS, the provided bot provides a way for calling API completely SYNCHRONOUSLY.
