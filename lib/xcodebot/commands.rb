@@ -32,7 +32,7 @@ module Xcodebot
 
             command :config do |c|
                 c.syntax = 'xcodebot config [options]'
-                c.description = 'Config xcode server api endpoint'
+                c.description = 'Configure xcode server'
                 c.example 'configure xcode bots', 'xcodebot config'
                 c.option '--list', '-l', 'Display xcode server api endpoint'
                 c.option '--address', '-a',  'Set address for xcode server api endpoint'
@@ -51,7 +51,7 @@ module Xcodebot
 
             command :bots do |c|
                 c.syntax = 'xcodebot bots [options]'
-                c.description = 'Lists xcode bots'
+                c.description = 'Manage xcode bots (CRUD)'
                 c.example 'manage xcode bots', 'xcodebot bots'
                 c.option '--list', '-l', 'List all bots'
                 c.option '--get', 'Get bot info by <id>'
@@ -72,8 +72,8 @@ module Xcodebot
 
             command :integrations do |c|
                 c.syntax = 'xcodebot integrations'
-                c.description = 'Lists xcode integrations'
-                c.example 'Manage xcode integrations', 'xcodebot integrations'
+                c.description = 'Manage xcode integrations (CRUD)'
+                c.example 'list xcode integrations', 'xcodebot integrations'
                 c.option '--list', '-l', 'List integrations for a bot <id>'
                 c.option '--create', '-c', 'Create a new integration for a bot <id>'
                 c.option '--cancel', 'Cancel an integration <id>'
