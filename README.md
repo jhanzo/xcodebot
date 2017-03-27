@@ -18,10 +18,14 @@ Feel free to open issues / open PRs.
 
 > gem install xcodebot
 
+Or :
+
+> gem "xcodebot", :git => "git://github.com/vpg/xcodebot.git"
+
 Some environment variables should be set for having access to your Xcode server :
 
-> export XCODEBOT_LOGIN="user@mail.com"
-> export XCODEBOT_PASSWORD="MY_PASSWORD"
+> export XCODEBOT_EMAIL="user@mail.com"  
+> export XCODEBOT_PASSWORD="MY_PASSWORD"  
 
 In this way, your credentials are never stored in any configuration file and you keep any control on them.
 
@@ -74,7 +78,7 @@ Then you can create a bot by running command (**simplification work in progress*
 > &nbsp;&nbsp;&nbsp;&nbsp;schedule:2 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;clean:1 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;branch:5.7 \\    
-> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\
+> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;blueprint:82EF22EF5CE4E343B67A9F79130BD862EF58AE20 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;project:'VoyagePrive' \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;folder:'iosVoyagePrive/' \\  
