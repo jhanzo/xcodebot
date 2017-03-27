@@ -20,7 +20,7 @@ Feel free to open issues / open PRs.
 
 Some environment variables should be set for having access to your Xcode server :
 
-> export XCODEBOT_EMAIL="user@mail.com"
+> export XCODEBOT_LOGIN="user@mail.com"
 > export XCODEBOT_PASSWORD="MY_PASSWORD"
 
 In this way, your credentials are never stored in any configuration file and you keep any control on them.
@@ -74,12 +74,22 @@ Then you can create a bot by running command (**simplification work in progress*
 > &nbsp;&nbsp;&nbsp;&nbsp;schedule:2 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;clean:1 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;branch:5.7 \\    
-> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\ 
+> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\
 > &nbsp;&nbsp;&nbsp;&nbsp;blueprint:82EF22EF5CE4E343B67A9F79130BD862EF58AE20 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;project:'VoyagePrive' \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;folder:'iosVoyagePrive/' \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;git:'github.com:vpg/iosVoyagePrive.git' \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;path:'VoyagePrive/VoyagePrive.xcworkspace'
+
+Or with a json model :
+
+> xcodebot bots --create \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;name:'Auto Bot' \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;schedule:2 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;clean:1 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;branch:5.7 \\    
+> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\
+> &nbsp;&nbsp;&nbsp;&nbsp;json:vpg_bot.json
 
 ### Integrations (`integrations`)
 

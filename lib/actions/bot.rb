@@ -115,10 +115,15 @@ module Xcodebot
 
         def self.create
             url = "#{Xcodebot::Config.hostname}/bots"
-            #this file is just a template, it's never updated
-            file = File.read('models/create_bot.json')
 
+            #get arguments
             args = Hash[ARGV.map {|el| el.split(':',2)}]
+
+            #a json file can be specified for input, if empty the default one is `models/create_bot.json`
+            filename = !args['json'] ? 'models/create_bot.json' : args['json']
+
+            #this file is just a template, it's never updated
+            file = File.read(filename)
 
             if !args.keys.include?('blueprint')
                 puts "Please fill your Blueprint id".red
@@ -144,9 +149,11 @@ module Xcodebot
             #extract blueprint
             blueprint_id = args["blueprint"]
 
-            replace = file.gsub(/(<NAME>|<SCHEME_NAME>|<BLUEPRINT_ID>|<BRANCH>|<FOLDER>|<PROJECT_NAME>|<PATH_PROJECT>|<VERSION_LINK>)/) do |match|
+            replace = file.gsub(/(<NAME>|<SHOULD_CLEAN>|<TYPE>|<SCHEME_NAME>|<BLUEPRINT_ID>|<BRANCH>|<FOLDER>|<PROJECT_NAME>|<PATH_PROJECT>|<VERSION_LINK>|<PASSWORD>|<USERNAME>)/) do |match|
                 case match
                 when '<NAME>' then args['name']
+                when '<SHOULD_CLEAN>' then args['clean']
+                when '<TYPE>' then args['schedule']
                 when '<SCHEME_NAME>' then args['scheme']
                 when '<BLUEPRINT_ID>' then blueprint_id
                 when '<BRANCH>' then args['branch']
@@ -154,6 +161,8 @@ module Xcodebot
                 when '<PROJECT_NAME>' then args['project']
                 when '<PATH_PROJECT>' then args['path']
                 when '<VERSION_LINK>' then args['git']
+                when '<PASSWORD>' then ENV['XCODEBOT_PASSWORD']
+                when '<USERNAME>' then ENV['XCODEBOT_LOGIN']
                 end
             end
 
