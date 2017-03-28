@@ -1,10 +1,10 @@
 require 'commander'
 require 'colorize'
 require 'rubygems'
-require './lib/xcodebot/version'
-require './lib/actions/bot'
-require './lib/actions/integration'
-require './lib/actions/config'
+require 'xcodebot/version'
+require 'actions/bot'
+require 'actions/integration'
+require 'actions/config'
 
 module Xcodebot
     class CommandsGenerator

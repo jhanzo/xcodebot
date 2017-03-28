@@ -1,4 +1,4 @@
-require './lib/xcodebot/commands'
+require 'xcodebot/commands'
 
 module Xcodebot
 # Manage command and ARGV

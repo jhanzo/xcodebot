@@ -2,7 +2,7 @@ require 'yaml'
 require 'uri'
 require 'net/http'
 require 'openssl'
-require './lib/helpers/url.rb'
+require 'helpers/url.rb'
 
 module Xcodebot
     class Config

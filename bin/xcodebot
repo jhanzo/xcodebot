@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-#$LOAD_PATH.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path("../lib", __FILE__)
 
-require "./lib/cli_tools"
+require "cli_tools"
 
 Xcodebot::CLITools.start
