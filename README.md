@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/ruby-2.4.0-yellow.svg)
 ![](https://img.shields.io/badge/gem-2.6.8-E9573F.svg)
 ![](https://img.shields.io/badge/xcode-8.2-blue.svg)
 
@@ -16,13 +17,13 @@ Feel free to open issues / open PRs.
 
 ## Installation
 
-> gem install xcodebot
+Manually :
 
-Or :
-
+> gem install bundler  
 > git clone https://github.com/vpg/xcodebot  
+> bundle install  
 > gem build xcodebot.gemspec  
-> gem install xcodebot-0.1.1.gem  
+> gem install xcodebot   
 
 Some environment variables should be set for having access to your Xcode server :
 
@@ -94,7 +95,7 @@ Or with a json model :
 > &nbsp;&nbsp;&nbsp;&nbsp;schedule:2 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;clean:1 \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;branch:5.7 \\    
-> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\
+> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;json:vpg_bot.json
 
 ### Integrations (`integrations`)
