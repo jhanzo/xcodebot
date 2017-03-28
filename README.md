@@ -20,7 +20,9 @@ Feel free to open issues / open PRs.
 
 Or :
 
-> gem "xcodebot", :git => "git://github.com/vpg/xcodebot.git"
+> git clone https://github.com/vpg/xcodebot
+> gem build xcodebot.gemspec
+> gem install xcodebot-0.1.1.gem
 
 Some environment variables should be set for having access to your Xcode server :
 
