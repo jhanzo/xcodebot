@@ -7,6 +7,6 @@ localhost:
   endpoint: api
 server:
   protocol: https
-  address: 10.13.2.101
+  address: 127.0.0.1
   port: 20343
   endpoint: api
