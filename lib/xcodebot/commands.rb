@@ -22,7 +22,7 @@ module Xcodebot
         end
 
         def run
-            spec = Gem::Specification::load("xcodebot.gemspec")
+            spec = Gem::Specification::load("#{Xcodebot::ROOT_DIR}/xcodebot.gemspec")
             program :name, 'xcodebot'
             program :version, Xcodebot::VERSION
             program :description, "#{spec.description}"
