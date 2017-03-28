@@ -1,13 +1,13 @@
 {
     /* ----- Scheduling ----- */
- 
+
     /* Schedule type:
             1: Periodically
             2: On commit
             3: Manual
     */
   "scheduleType": 3,
- 
+
     /* Periodic schedule
             1: Hourly
             2: Daily
@@ -16,20 +16,20 @@
              - 'scheduleType' set to 1 (Periodically)
     */
   "periodicScheduleInterval": 0,
- 
+
     /* Minutes after the hour to integrate
             Value: 0 to 59
          Dependencies:
              - 'periodicScheduleInterval' set to 1 (Hourly)
   "minutesAfterHourToIntegrate": 0,
- 
+
     /* Hour of integration
             Value: 0 (midnight) to 23
        Dependencies:
              - 'periodicScheduleInterval' set to 2 (Daily) or 3 (Weekly)
     */
   "hourOfIntegration": 0,
- 
+
     /* Weekly schedule day
             1: Monday
             2: Tuesday
@@ -41,14 +41,14 @@
          Dependencies:
              - 'periodicScheduleInterval' set to 3 (Weekly)
   "weeklyScheduleDay": 0,
- 
+
     /* ----- General ----- */
- 
+
     /* Scheme name
             The name of the scheme used to integrate.
     */
   "schemeName": "dojo-testing",
- 
+
     /* Built from clean
             0: Never
             1: Always
@@ -56,32 +56,32 @@
             3: Once a week
     */
   "builtFromClean": 0,
- 
+
     /* Configuration
             Value: "Debug" | "Release" | "XXX" <- we need to set the value because if exists already,
             devs cannot remove it (there is no support for it)
     */
   "buildConfiguration": "Release",
- 
+
     /* ----- Actions ----- */
- 
+
     /* Performs analyze action
             Value: true | false
     */
   "performsAnalyzeAction": true,
- 
+
     /* Performs test action
             Value: true | false
     */
   "performsTestAction": true,
- 
+
     /* Performs archive action
             Value: true | false
     */
   "exportsProductFromArchive": true,
- 
+
     /* ----- Testing ----- */
- 
+
     /* Code coverage
             1: Use scheme setting
             2: Enabled
@@ -90,9 +90,9 @@
              - 'performsTestAction' set to true
     */
   "codeCoveragePreference": 1,
- 
+
     /* ----- Triggers ----- */
- 
+
     /* Triggers
             Value: array of <Trigger>
                 Trigger:
@@ -114,9 +114,9 @@
   "triggers": [
     ...
   ],
- 
+
     /* ----- Devices ----- */
- 
+
     /* Device specification
             Value: array of <device ID>
                Dependencies:
@@ -131,15 +131,15 @@
       ...
     ]
   },
- 
+
     /* ----- Blueprint ----- */
- 
+
   "sourceControlBlueprint": {
         /* Unique identifier for each blueprint
           Value: A valid UUID
         */
       "DVTSourceControlWorkspaceBlueprintIdentifierKey": "34D1C3F9-E33F-4935-A5E4-7154F4309EDF",
- 
+
         /* Locations
                 Value: array of <Location>
                     Location:
@@ -161,23 +161,23 @@
               "DVTSourceControlWorkspaceBlueprintLocationTypeKey": "DVTSourceControlBranch"
           }
       },
- 
+
         /* The name for the blueprint, typically the name of the Xcode project or workspace
           Value: string
         */
       "DVTSourceControlWorkspaceBlueprintNameKey": "Project",
- 
+
         /* The identifier of the working copy containing the Xcode project or workspace to build,
            considered the primary working copy.
            Value: string (repository identifier)
         */
       "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey": "47B0B4A0E6B2316DF0F333C188B6423A9479B516",
- 
+
         /* The relative path in the primary working copy to the Xcode project or workspace to build
           Value: string (relative path)
         */
       "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey": "Project.xcworkspace",
- 
+
         /* Repositories
             Value: array of <Repository>
                 Repository:
@@ -201,7 +201,7 @@
               "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey": "git@server:/repo.git"
           }
       ],
- 
+
         /* Authentication strategies
             Value: dictionary of string (repository identifier) to <Authentication>
                 Authentication:
@@ -222,12 +222,12 @@
                       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryUsernameKey": "git"
           }
       },
- 
+
         /* The blueprint format version
           Value: 204
         */
       "DVTSourceControlWorkspaceBlueprintVersion": 204,
- 
+
         /* Working copy layout
             Value: dictionary of string (repository identifier) to string (relative path of checkout)
         */

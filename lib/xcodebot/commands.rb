@@ -12,8 +12,8 @@ module Xcodebot
 
         def check_envvar
             #warning about xcodebot env var
-            if !ENV['XCODEBOT_EMAIL'] || !ENV['XCODEBOT_PASSWORD']
-                puts "XCODEBOT_EMAIL and XCODEBOT_PASSWORD are missing in ENV VARs".yellow
+            if !ENV['XCODEBOT_LOGIN'] || !ENV['XCODEBOT_PASSWORD']
+                puts "XCODEBOT_LOGIN and XCODEBOT_PASSWORD are missing in ENV VARs".yellow
             end
         end
 

@@ -115,45 +115,25 @@ module Xcodebot
 
         def self.create
             url = "#{Xcodebot::Config.hostname}/bots"
-            #this file is just a template, it's never updated
-            file = File.read('models/create_bot.json')
 
+            #get arguments
             args = Hash[ARGV.map {|el| el.split(':',2)}]
 
-            if !args.keys.include?('blueprint')
-                puts "Please fill your Blueprint id".red
-                puts "Run the following `command` from your xcode project for having blueprint id :"
-                puts "---"
-                puts "find . -name '*.xcscmblueprint' | \\".italic.light_white
-                puts "xargs grep DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey | \\".italic.light_white
-                puts "sed -e 's/\".*\" : \"\\(.*\\)\",/\\1/'".italic.light_white
-                puts "---"
-                abort
-            end
-
+            abort "Parameter is missing : `json`".red if !args.keys.include?('json')
             abort "Parameter is missing : `name`".red if !args.keys.include?('name')
-            abort "Parameter is missing : `schedule`".red if !args.keys.include?('schedule')
-            abort "Parameter is missing : `clean`".red if !args.keys.include?('clean')
-            abort "Parameter is missing : `branch`".red if !args.keys.include?('branch')
             abort "Parameter is missing : `scheme`".red if !args.keys.include?('scheme')
-            abort "Parameter is missing : `folder`".red if !args.keys.include?('folder')
-            abort "Parameter is missing : `project`".red if !args.keys.include?('project')
-            abort "Parameter is missing : `path`".red if !args.keys.include?('path')
-            abort "Parameter is missing : `git`".red if !args.keys.include?('git')
+            abort "Parameter is missing : `branch`".red if !args.keys.include?('branch')
 
-            #extract blueprint
-            blueprint_id = args["blueprint"]
+            filename = !args['json'] ? 'models/bot.json' : args['json']
 
-            replace = file.gsub(/(<NAME>|<SCHEME_NAME>|<BLUEPRINT_ID>|<BRANCH>|<FOLDER>|<PROJECT_NAME>|<PATH_PROJECT>|<VERSION_LINK>)/) do |match|
+            #a json file can be specified for input, if empty the default one is `models/create_bot.json`
+            file = File.read(filename)
+
+            replace = file.gsub(/(<NAME>|<SCHEME>|<BRANCH>)/) do |match|
                 case match
                 when '<NAME>' then args['name']
-                when '<SCHEME_NAME>' then args['scheme']
-                when '<BLUEPRINT_ID>' then blueprint_id
+                when '<SCHEME>' then args['scheme']
                 when '<BRANCH>' then args['branch']
-                when '<FOLDER>' then args['folder']
-                when '<PROJECT_NAME>' then args['project']
-                when '<PATH_PROJECT>' then args['path']
-                when '<VERSION_LINK>' then args['git']
                 end
             end
 

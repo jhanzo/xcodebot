@@ -4,11 +4,14 @@ module Xcodebot
     class Url
 
         def self.generateToken
-            if !ENV['XCODEBOT_EMAIL'] || !ENV['XCODEBOT_PASSWORD']
-                abort "Both XCODEBOT_EMAIL and XCODEBOT_PASSWORD are required for this route".red
+            if !ENV['XCODEBOT_LOGIN'] || !ENV['XCODEBOT_PASSWORD']
+                abort "Both XCODEBOT_LOGIN and XCODEBOT_PASSWORD are required for this route".red
             end
-            Base64.encode64("#{ENV['XCODEBOT_EMAIL']}:#{ENV['XCODEBOT_PASSWORD']}")
-            return "bWFjc2VydmljZXM6MzdHaW5wcmE"
+            return self.base64_encode("#{ENV['XCODEBOT_LOGIN']}:#{ENV['XCODEBOT_PASSWORD']}")
+        end
+
+        def self.base64_encode(input)
+            return Base64.strict_encode64("#{ENV['XCODEBOT_LOGIN']}:#{ENV['XCODEBOT_PASSWORD']}")
         end
 
         def self.display_url(url)

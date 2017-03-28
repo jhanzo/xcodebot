@@ -85,6 +85,16 @@ Then you can create a bot by running command (**simplification work in progress*
 > &nbsp;&nbsp;&nbsp;&nbsp;git:'github.com:vpg/iosVoyagePrive.git' \\  
 > &nbsp;&nbsp;&nbsp;&nbsp;path:'VoyagePrive/VoyagePrive.xcworkspace'
 
+Or with a json model :
+
+> xcodebot bots --create \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;name:'Auto Bot' \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;schedule:2 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;clean:1 \\  
+> &nbsp;&nbsp;&nbsp;&nbsp;branch:5.7 \\    
+> &nbsp;&nbsp;&nbsp;&nbsp;scheme:CI \\
+> &nbsp;&nbsp;&nbsp;&nbsp;json:vpg_bot.json
+
 ### Integrations (`integrations`)
 
 > xcodebot help integrations
