@@ -123,11 +123,9 @@ module Xcodebot
             abort "Parameter is missing : `name`".red if !args.keys.include?('name')
             abort "Parameter is missing : `scheme`".red if !args.keys.include?('scheme')
             abort "Parameter is missing : `branch`".red if !args.keys.include?('branch')
+            abort "Please fill a valid model json file".red if !File.file?(args['json'])
 
-            filename = !args['json'] ? 'models/bot.json' : args['json']
-
-            #a json file can be specified for input, if empty the default one is `models/create_bot.json`
-            file = File.read(filename)
+            file = File.read(args['json'])
 
             replace = file.gsub(/(<NAME>|<SCHEME>|<BRANCH>)/) do |match|
                 case match
