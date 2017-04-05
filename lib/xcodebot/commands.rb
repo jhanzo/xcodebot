@@ -33,8 +33,6 @@ module Xcodebot
                 c.description = 'Configure xcode server'
                 c.example 'configure xcode bots', 'xcodebot config'
                 c.option '--list', '-l', 'Display xcode server api endpoint'
-                c.option '--address', '-a',  'Set address for xcode server api endpoint'
-                c.option '--localhost', '--local', 'Use localhost api endpoint'
                 c.action do |args, options|
                     #remove argument config
                     ARGV.delete("config") if ARGV.first == "config"
