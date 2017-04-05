@@ -4,14 +4,14 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'xcodebot/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "xcodebot"
+  spec.name          = Xcodebot::NAME
   spec.version       = Xcodebot::VERSION
   spec.authors       = ["j2shnz"]
   spec.email         = ["jessy.hanzo@gmail.com"]
 
-  spec.summary       = %q{Run xcode bots}
-  spec.description   = %q{Xcodebot helps you to manage xcode bots easier}
-  spec.homepage      = "https://github.com/j2shnz/xcodebot"
+  spec.summary       = Xcodebot::SUMMARY
+  spec.description   = Xcodebot::DESCRIPTION
+  spec.homepage      = Xcodebot::GITHUB
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "commander", "~> 4.4"
-  spec.add_development_dependency "colorize", "~> 0.8.1"
+  spec.add_development_dependency "colorize", "~> 0.8"
   spec.add_development_dependency "terminal-table", "~> 1.7"
 end

@@ -22,12 +22,10 @@ module Xcodebot
         end
 
         def run
-            spec = Gem::Specification::load("#{Xcodebot::ROOT_DIR}/xcodebot.gemspec")
-            program :name, 'xcodebot'
+            program :name, Xcodebot::NAME
             program :version, Xcodebot::VERSION
-            program :description, "#{spec.description}"
-            program :help, 'Author', "#{spec.authors.first} <#{spec.email.first}>"
-            program :help, 'GitHub', "#{spec.homepage}"
+            program :description, Xcodebot::DESCRIPTION
+            program :help, 'GitHub', Xcodebot::GITHUB
             program :help_formatter, :compact
 
             command :config do |c|
