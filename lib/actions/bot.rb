@@ -7,9 +7,11 @@ module Xcodebot
     class Bot
         def self.run
             if ARGV.size > 0
+                if (["--list-all"] & ARGV).size > 0
+                    listAll
+                    return true
+                end
                 if (["--list","-l"] & ARGV).size > 0
-                    #remove argument config
-                    ARGV.delete(ARGV.first)
                     list
                     return true
                 end
@@ -55,6 +57,24 @@ module Xcodebot
         # CRUD actions
 
         def self.list
+          url = "#{Xcodebot::Config.hostname}/bots"
+
+          response = Xcodebot::Url.get(url)
+          if !(response.kind_of? Net::HTTPSuccess)
+              abort "Error while getting bots : #{response.code}, #{response.message}".red
+          end
+          json = JSON.parse(response.body)
+
+          title = "#{json["count"]} bots found ".italic
+          headers = ['tiny_id','name','scheme','branch','coverage','with_tests']
+
+          rows = []
+          json["results"].each do |bot|
+              print "\n- Bot #{bot['name']} (#{bot['tinyID']}) for #{bot['configuration']['schemeName']} on #{branch ? branch["DVTSourceControlBranchIdentifierKey"] : '-'}"
+          end
+        end
+
+        def self.listAll
             url = "#{Xcodebot::Config.hostname}/bots"
 
             response = Xcodebot::Url.get(url)
