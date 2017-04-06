@@ -22,8 +22,7 @@ Manually :
 > gem install bundler  
 > git clone https://github.com/vpg/xcodebot  
 > bundle install  
-> gem build xcodebot.gemspec  
-> gem install xcodebot   
+> rake install
 
 Some environment variables should be set for having access to your Xcode server :
 
