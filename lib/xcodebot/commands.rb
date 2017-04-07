@@ -28,8 +28,9 @@ module Xcodebot
             program :help, 'GitHub', Xcodebot::GITHUB
             program :help_formatter, :compact
 
-	    String.disable_colorization = true
-
+	    if ENV['XCODEBOT_COLOR_DISABLED']
+	        String.disable_colorization = true
+	    end
             command :config do |c|
                 c.syntax = 'xcodebot config [options]'
                 c.description = 'Configure xcode server'

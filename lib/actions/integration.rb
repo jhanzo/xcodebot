@@ -39,8 +39,8 @@ module Xcodebot
                 if (["--status","-s"] & ARGV).size > 0
                     #remove argument config
                     ARGV.delete(ARGV.first)
-                    #return false if !ARGV[0]
-                    status
+                    return false if !ARGV[0]
+                    display_status(ARGV[0])
                     return true
                 end
                 if (["--cancel"] & ARGV).size > 0
@@ -166,10 +166,6 @@ module Xcodebot
             else
                 abort "Error while deleting integration #{id} : #{response.code}, #{response.message}".red
             end
-        end
-
-        def self.status
-            spin_it 10
         end
 
         # helpers
