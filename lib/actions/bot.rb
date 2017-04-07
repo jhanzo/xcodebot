@@ -70,7 +70,10 @@ module Xcodebot
 
           rows = []
           json["results"].each do |bot|
-              print "\n- Bot #{bot['name']} (#{bot['tinyID']}) for #{bot['configuration']['schemeName']} on #{branch ? branch["DVTSourceControlBranchIdentifierKey"] : '-'}"
+              blueprint = bot['configuration']['sourceControlBlueprint']
+              blueprint_id = blueprint['DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey']
+              branch = blueprint['DVTSourceControlWorkspaceBlueprintLocationsKey'][blueprint_id]
+              puts "- Bot `#{bot['name']}` (#{bot['tinyID']}) for `#{bot['configuration']['schemeName']}` on `#{branch ? branch["DVTSourceControlBranchIdentifierKey"] : 'unknown'}`"
           end
         end
 
