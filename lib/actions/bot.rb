@@ -167,7 +167,7 @@ module Xcodebot
 
             response = Xcodebot::Url.post_json(url,JSON.parse(replace).to_json)
             if response.kind_of? Net::HTTPSuccess
-                puts "Bot id : #{JSON.parse(response.body)["_id"]}".green
+                puts "Bot id : `#{JSON.parse(response.body)["_id"]}`".green
             else
                 abort "Error while creating bot : #{response.code}, #{response.message}".red
             end

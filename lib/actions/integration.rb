@@ -193,7 +193,7 @@ module Xcodebot
                 step_value = !STEPS["#{json['currentStep']}"] ? json['currentStep'] : STEPS["#{json['currentStep']}"]
                 print "\n\b- Performing step: " + "#{step_value}".blue + "...  "
                 pinwheel = %w{| / - \\}
-                while last_step == step
+                while last_step == step && step != 'completed'
                     print "\b" + pinwheel.rotate!.first
                     response = Xcodebot::Url.get(url)
                     json = JSON.parse(response.body)
@@ -206,17 +206,17 @@ module Xcodebot
                 sleep 1
             end
             if json['startedTime']
-                print "Start date : " + DateTime.parse(json['startedTime']).strftime("%m/%d/%Y %H:%M:%S")
+                puts "Start date : " + DateTime.parse(json['startedTime']).strftime("%m/%d/%Y %H:%M:%S")
             end
             if json['duration']
-                print "Duration : " + Time.at(json['duration']).utc.strftime("%Hh %Mmin %Ssec")
+                puts "Duration : " + Time.at(json['duration']).utc.strftime("%Hh %Mmin %Ssec")
             end
             if json['duration']
                 step_value = !STEPS["#{json['currentStep']}"] ? json['currentStep'] : STEPS["#{json['currentStep']}"]
-                result_value = !STATUSES["#{int['result']}"] ? int['result'] : STATUSES["#{int['result']}"]
-                print "Status : #{result_value} - #{step_value}"
+                result_value = !STATUSES["#{json['result']}"] ? json['result'] : STATUSES["#{json['result']}"]
+                puts "Status : #{result_value} - #{step_value}"
             end
-            print "More logs available at : #{Xcodebot::Config.hostname}/integrations/#{id}/assets"
+            puts "More logs available at : #{Xcodebot::Config.hostname}/integrations/#{id}/assets"
         end
 
         def self.logs(id)
