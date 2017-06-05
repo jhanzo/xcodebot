@@ -59,6 +59,7 @@ module Xcodebot
                 c.option '--create', '-c', 'Create a new bot with params <KEY>:<VALUE>'
                 c.option '--duplicate', '-d', 'Duplicate bot <id>'
                 c.option '--delete', '--remove', 'Remove one or several bot <id1> <id2> <...>'
+                c.option '--getId', 'Get a bot id from bot name <name>'
                 c.action do |args, options|
                     #remove argument config
                     ARGV.delete("bots") if ARGV.first == "bots"

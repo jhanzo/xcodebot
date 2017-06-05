@@ -50,6 +50,13 @@ module Xcodebot
                     duplicate(ARGV[0])
                     return true
                 end
+                if (["--getId"] & ARGV).size > 0
+                    #remove argument config
+                    ARGV.delete(ARGV.first)
+                    return false if !ARGV[0]
+		    get_id(ARGV[0])
+		    return true
+                end
             end
             return false
         end
@@ -208,5 +215,15 @@ module Xcodebot
             table.align_column(1, :right)
             puts table
         end
+
+	def self.get_id(name)
+	   url = "#{Xcodebot::Config.hostname}/bots"
+	   response = Xcodebot::Url.get(url)
+	   if !(response.kind_of? Net::HTTPSuccess)
+	       abort "Error while getting bots : #{response.code}, #{response.message}".red
+	   end
+	   json = JSON.parse(response.body)
+	   puts json["results"].find { |r| r["name"] == name }["_id"]
+	end
     end
 end
