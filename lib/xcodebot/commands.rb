@@ -95,16 +95,6 @@ module Xcodebot
                 end
             end
 
-            command :info do |c|
-                if ARGV.size == 0 || ( ["--help","-h"] & ARGV).size > 0
-                    command(:help).run
-                    print "---------------------------------------\n".green
-                    print "Xcodebot v#{Xcodebot::VERSION}\n".italic.green
-                    print "Status: ".italic.green + "Work in Progress".italic.yellow + "\n"
-                    print "---------------------------------------\n".green
-                end
-            end
-
             default_command :help
             run!
         end
