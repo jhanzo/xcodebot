@@ -40,7 +40,11 @@ module Xcodebot
                     #remove argument config
                     ARGV.delete(ARGV.first)
                     return false if !ARGV[0]
-                    display_status(ARGV[0])
+                    if (["--live"] & ARGV).size > 0
+                      live_status(ARGV[0])
+                    else
+                      display_status(ARGV[0])
+                    end
                     return true
                 end
                 if (["--cancel"] & ARGV).size > 0
@@ -123,7 +127,7 @@ module Xcodebot
 
                 if (["--wait"] & ARGV).size > 0
                     print "\nWait until integration ends...\n".blue
-                    display_status(json['tinyID'])
+                    live_status(json['tinyID'])
                 end
             else
                 abort "Error while getting integration for bot #{bot_id} : #{response.code}, #{response.message}".red
@@ -179,6 +183,28 @@ module Xcodebot
         end
 
         def self.display_status(id)
+          url = "#{Xcodebot::Config.hostname}/integrations/#{id}"
+          response = Xcodebot::Url.get(url)
+          json = JSON.parse(response.body)
+
+          step_value = !STEPS["#{json['currentStep']}"] ? json['currentStep'] : STEPS["#{json['currentStep']}"]
+          result_value = !STATUSES["#{json['result']}"] ? json['result'] : STATUSES["#{json['result']}"]
+
+          if (["--more"] & ARGV).size > 0
+              puts "Status : #{result_value} - #{step_value}"
+              if json['startedTime']
+                  puts "Start date : " + DateTime.parse(json['startedTime']).strftime("%m/%d/%Y %H:%M:%S")
+              end
+              if json['duration']
+                  puts "Duration : " + Time.at(json['duration']).utc.strftime("%Hh %Mmin %Ssec")
+              end
+              puts "More logs available at : #{Xcodebot::Config.hostname}/integrations/#{id}/assets"
+          else
+            puts step_value
+          end
+        end
+
+        def self.live_status(id)
             url = "#{Xcodebot::Config.hostname}/integrations/#{id}"
 
             last_step = ''
