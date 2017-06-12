@@ -82,6 +82,8 @@ module Xcodebot
                 c.option '--logs', 'Get logs from an integration <id>'
                 c.option '--delete', '--remove', 'Remove integration from <id>'
                 c.option '--delete-all', '--remove-all', 'Remove all integrations'
+                c.option '--wait', 'Wait until integration ends'
+                c.option '--more', 'More information about integration'
                 c.action do |args, options|
                     #remove argument config
                     ARGV.delete("integrations") if ARGV.first == "integrations"
