@@ -223,7 +223,8 @@ module Xcodebot
 	       abort "Error while getting bots : #{response.code}, #{response.message}".red
 	   end
 	   json = JSON.parse(response.body)
-	   puts json["results"].find { |r| r["name"] == name }["_id"]
+           result = json["results"].find { |r| r["name"] == name }
+	   puts result.nil? ? 0 : result["_id"] 
 	end
     end
 end
