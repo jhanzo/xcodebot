@@ -54,7 +54,7 @@ module Xcodebot
                     #remove argument config
                     ARGV.delete(ARGV.first)
                     return false if !ARGV[0]
-		                get_id(ARGV[0])
+		                puts get_id(ARGV[0])
 		                return true
                 end
             end
@@ -171,6 +171,7 @@ module Xcodebot
 
             # if bot not existed, create it
             if !existed
+		raise 'EEROOROROROOR'
                 response = Xcodebot::Url.post_json(url,JSON.parse(replace).to_json)
                 if response.kind_of? Net::HTTPSuccess
                   puts JSON.parse(response.body)["_id"]
@@ -233,7 +234,8 @@ module Xcodebot
 	   end
 	   json = JSON.parse(response.body)
      result = json["results"].find { |r| r["name"] == name }
-	   puts result.nil? ? 0 : result["_id"]
+	   output = result.nil? ? 0 : result["_id"]
+	   return output
 	end
     end
 end
