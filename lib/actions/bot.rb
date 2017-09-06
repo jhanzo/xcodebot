@@ -54,8 +54,8 @@ module Xcodebot
                     #remove argument config
                     ARGV.delete(ARGV.first)
                     return false if !ARGV[0]
-		    get_id(ARGV[0])
-		    return true
+		                get_id(ARGV[0])
+		                return true
                 end
             end
             return false
@@ -165,11 +165,20 @@ module Xcodebot
                 end
             end
 
-            response = Xcodebot::Url.post_json(url,JSON.parse(replace).to_json)
-            if response.kind_of? Net::HTTPSuccess
-                puts JSON.parse(response.body)["_id"]
-            else
-                abort "Error while creating bot : #{response.code}, #{response.message}".red
+            #first test if a bot with input `name` already exists
+            bot_id = self.get_id(args['name'])
+            existed = bot_id.nil? ? false : true
+
+            # if bot not existed, create it
+            if !existed
+                response = Xcodebot::Url.post_json(url,JSON.parse(replace).to_json)
+                if response.kind_of? Net::HTTPSuccess
+                  puts JSON.parse(response.body)["_id"]
+                else
+                  abort "Error while creating bot : #{response.code}, #{response.message}".red
+                end
+            else #else run an integration
+                Xcodebot::Integration.create(bot_id)
             end
         end
 
@@ -223,8 +232,8 @@ module Xcodebot
 	       abort "Error while getting bots : #{response.code}, #{response.message}".red
 	   end
 	   json = JSON.parse(response.body)
-           result = json["results"].find { |r| r["name"] == name }
-	   puts result.nil? ? 0 : result["_id"] 
+     result = json["results"].find { |r| r["name"] == name }
+	   puts result.nil? ? 0 : result["_id"]
 	end
     end
 end
