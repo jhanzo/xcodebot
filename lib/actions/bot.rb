@@ -167,11 +167,10 @@ module Xcodebot
 
             #first test if a bot with input `name` already exists
             bot_id = self.get_id(args['name'])
-            existed = bot_id.nil? ? false : true
+            existed = bot_id.nil? || bot_id == 0 ? false : true
 
             # if bot not existed, create it
             if !existed
-		raise 'EEROOROROROOR'
                 response = Xcodebot::Url.post_json(url,JSON.parse(replace).to_json)
                 if response.kind_of? Net::HTTPSuccess
                   puts JSON.parse(response.body)["_id"]
